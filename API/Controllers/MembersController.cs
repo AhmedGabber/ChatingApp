@@ -6,12 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]//Http://localhost:7001/api/members
-    [ApiController]
-    public class MembersController(AppDbContext context) : ControllerBase
+    public class MembersController(AppDbContext context) : BaseApiController
     {
-        [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<AppUser>>> GetMembers()
+        [HttpGet]//http://localhost:7001/api/members
+        public async Task<ActionResult<IReadOnlyList<AppUser>>> GetMembers() 
         {
             var members =await context.Users.ToListAsync();
             return  Ok(members);
