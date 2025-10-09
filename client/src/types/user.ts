@@ -3,7 +3,7 @@ export type User = {
     displayName: string;
     email: string;
     token: string;
-    imageUrl?: string;
+    image?: string;
 }
 
 export type loginCreds= {

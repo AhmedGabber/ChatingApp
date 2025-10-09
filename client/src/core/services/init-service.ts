@@ -13,6 +13,8 @@ export class InitService {
     if(!userString) return of(null);
     const user=JSON.parse(userString);
     this.accountService.currentUser.set(user);
+    console.log('User saved in localStorage =>', localStorage.getItem('user'));
+
     return of(null);
   }
 }
