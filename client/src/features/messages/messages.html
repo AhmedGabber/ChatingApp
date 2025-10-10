@@ -1,1 +1,59 @@
-<p>messages works!</p>
+<div class="fixed top-16 left-0 right-0 bottom-0 flex flex-col ">
+
+
+    <div class="flex-1 overflow-y-auto p-2">
+        @for (message of messages(); track message.id) {
+        <div class="chat" [class.chat-start]="!message.currentUserSender" [class.chat-end]="message.currentUserSender">
+
+            <div class="chat-image avatar">
+                <div class="w-10 rounded-full">
+                    <img alt="image of user" [src]="message?.senderImageUrl || '/User-avatar.svg.png'" />
+                </div>
+            </div>
+
+            <div class="chat-header">
+                {{message.senderDisplayName}}
+                <time class="text-xs opacity-50">
+                    {{message.messageSent | date:'short'}}
+                </time>
+            </div>
+            @if(!message.currentUserSender){
+
+                <div class="chat-message">
+                    <div class="chat-bubble">
+                        {{ message.content }}
+                    </div>
+                    <button class="delete-btn" (click)="deleteMessage($event, message.id)">
+                        🗑️
+                    </button>
+                </div>
+            }@else if(message.currentUserSender){              
+                <div class="chat-message">
+                    <button class="delete-btn" (click)="deleteMessage($event, message.id)">
+                        🗑️
+                    </button>
+                    <div class="chat-bubble">
+                        {{ message.content }}
+                    </div>
+                </div>
+            }
+            <div class="chat-footer opacity-50 pt-3 pb-3"></div>
+        </div>
+        }
+        <div #messageEndRef></div>
+    </div>
+
+    <div class="w-full p-2 border-t  sticky bottom-0">
+        <div class="flex">
+            <div *ngIf="(messageContent?.length ?? 0) >= 150" class="text-red-600 text-sm mt-1 text">
+                Max length 150 character
+            </div>
+            <input type="text" [(ngModel)]="messageContent" class="input flex-1" placeholder="Enter your message"
+                maxlength="150">
+            <button (click)="sendMessage()" type="submit" class="btn btn-primary ml-2">
+                Send
+            </button>
+        </div>
+    </div>
+
+</div>

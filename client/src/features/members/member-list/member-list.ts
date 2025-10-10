@@ -13,11 +13,12 @@ import { RouterLink } from '@angular/router';
   styleUrl: './member-list.css'
 })
 export class MemberList {
-private memberService = inject(MemberService);
+protected memberService = inject(MemberService);
 protected accountService = inject(AccountService);
 protected members$:Observable<Member[]>;
 
 constructor(){
   this.members$= this.memberService.getMembers();
+  this.memberService.getCurrentMember();
 }
 }

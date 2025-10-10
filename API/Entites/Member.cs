@@ -10,8 +10,12 @@ public class Member
     public string? ImageUrl { get; set; }
     public DateTime Created { get; set; } = DateTime.UtcNow;
     public DateTime LastActive { get; set; } = DateTime.UtcNow;
-    
-    [JsonIgnore ]
+
+    [JsonIgnore]
     [ForeignKey(nameof(Id))]
     public AppUser User { get; set; } = null!;
+    [JsonIgnore]
+    public List<Message> MessagesSent { get; set; } = [];
+    [JsonIgnore]
+    public List<Message> MessagesReceived { get; set; } = [];
 }

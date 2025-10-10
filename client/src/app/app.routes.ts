@@ -27,12 +27,9 @@ export const routes: Routes = [
                     },
                 {
                     path:'profile', component: MemberProfile,title:'Profile'
-                },
-                {
-                    path:'messages', component: MemberMessages,title:'Messeges'
                 }]
             },
-            { path: 'messages', component: Messages },
+            { path: 'messages/:id', component: Messages },
             { path: 'lists', component: Lists }]
     },
     { path: '**', component: Home },

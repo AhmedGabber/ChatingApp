@@ -18,6 +18,36 @@ public class MemberRepository(AppDbContext context) : IMemberRepository
     {
         return await context.Members.ToListAsync();
     }
+    public async Task<IReadOnlyList<Member>> GetChatListAsync(string currentMemberId)
+    {
+
+        var messages = await context.Messages
+            .Where(m => m.SenderId == currentMemberId || m.RecipientId == currentMemberId)
+            .ToListAsync(); 
+
+        var lastMessages = messages
+            .GroupBy(m => m.SenderId == currentMemberId ? m.RecipientId : m.SenderId)
+            .Select(g => g.OrderByDescending(m => m.MessageSent).First())
+            .OrderByDescending(m => m.MessageSent)
+            .ToList();
+                
+
+        var memberIds = lastMessages
+            .Select(m => m.SenderId == currentMemberId ? m.RecipientId : m.SenderId)
+            .ToList();
+
+        var members = await context.Members
+            .Where(m => memberIds.Contains(m.Id))
+            .ToListAsync();
+
+       
+        var sorted = memberIds
+            .Select(id => members.First(m => m.Id == id))
+            .ToList();
+
+        return sorted;
+
+    }
 
     public async Task<bool> SaveAllAsync()
     {
@@ -28,4 +58,6 @@ public class MemberRepository(AppDbContext context) : IMemberRepository
     {
         context.Entry(member).State = EntityState.Modified;
     }
+
+
 }

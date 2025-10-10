@@ -1,0 +1,43 @@
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 6px;
+  max-width: 80%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* لو الرسالة من اليوزر الحالي، خليه ناحية اليمين */
+.chat-end .chat-message {
+  justify-content: flex-end;
+  align-self: flex-end;
+}
+
+/* الفقاعة */
+.chat-bubble {
+  background-color: #2a2a2a;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: 100%;
+  word-break: break-word;
+  white-space: pre-wrap;
+  flex-shrink: 1; /* يمنعها تمد أكتر من اللازم */
+}
+
+/* زرار الحذف */
+.delete-btn {
+  flex-shrink: 0; /* يخليه ثابت جنب الرسالة */
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 18px;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.delete-btn:hover {
+  color: red;
+  transform: scale(1.1);
+}

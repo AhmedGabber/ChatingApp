@@ -13,9 +13,8 @@
 
         <nav class=" flex gap-3 my-2 uppercase text-lg text-white ">
             @if (accountService.currentUser()) {
-            <a routerLink="/members" routerLinkActive="text-accent" [routerLinkActiveOptions]="{exact:true}">Members</a>
-            <a routerLink="/lists" routerLinkActive="text-accent">lists</a>
-            <a routerLink="/messages" routerLinkActive="text-accent">Messages</a>
+            <a routerLink="/members" routerLinkActive="text-accent" [routerLinkActiveOptions]="{exact:true}">All Members</a>
+            <a routerLink="/lists" routerLinkActive="text-accent">Chats</a>
             }
         </nav>
         <div class="flex align-middle ml-auto gap-3">

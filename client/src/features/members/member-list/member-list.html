@@ -10,7 +10,7 @@
         <tbody>
             <!-- row 1 -->
             @for (member of members$ |async; track $index) {
-           <!-- @if(accountService.currentUser()!=member){-->
+           @if(memberService.curentMember().id!=member.id){
             <tr>
                 <td>
                     <div class="pl-15 flex items-center gap-3">
@@ -18,7 +18,7 @@
                             <div class="mask mask-squircle h-12 w-12">
                                 <img [src]="member?.imageUrl || '/User-avatar.svg.png'"
                                     alt="Avatar Tailwind CSS Component" />
-                            </div>
+                            </div> 
                         </div>
                         <div>
                             <div class="font-bold">{{member.displayName}}</div>
@@ -28,11 +28,11 @@
                 <td></td>
                 <td></td>
                 <td class="pl-180">
-                    <button class="btn btn-primary rounded-4xl mr-2">Open Chat</button>
+                    <button class="btn btn-primary rounded-4xl mr-2" [routerLink]="['/messages',member.id]">Open Chat</button>
                     <button class="btn btn-info rounded-4xl " [routerLink]="['/members', member.id]">Open Profile</button>
                 </td>
             </tr>
-            }
+            }}
         </tbody>
     </table>
 </div>

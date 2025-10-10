@@ -7,7 +7,10 @@ public interface IMemberRepository
     void Update(Member member);
     Task<bool> SaveAllAsync();
 
-    Task<IReadOnlyList<Member>> GetMembersAsync();
+    Task<IReadOnlyList<Member>> GetChatListAsync(string currentMemberId);
 
     Task<Member?> GetMemberAsync(string id);
+
+    Task<IReadOnlyList<Member>> GetMembersAsync();
+
 }
