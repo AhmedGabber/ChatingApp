@@ -6,5 +6,6 @@ public class CreateMessageDto
 {
   public required string RecipientId { get; set; }
   public required string content { get; set; }
+  public int MessageType { get; set; } = 0;
 }
 

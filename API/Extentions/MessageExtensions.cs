@@ -20,6 +20,7 @@ public static class MessageExtensions
             RecipientId = message.SenderId,
             RecipientImageUrl = message.Recipient.ImageUrl,
             RecipientDisplayName = message.Recipient.DisplayName,
+            MessageType = message.MessageType
 
         };
 
@@ -38,7 +39,8 @@ public static class MessageExtensions
             RecipientImageUrl = message.Recipient.ImageUrl,
             content = message.content,
             DateRead = message.DateRead,
-            MessageSent = message.MessageSent
+            MessageSent = message.MessageSent,
+            MessageType = message.MessageType
         };
     }
 }

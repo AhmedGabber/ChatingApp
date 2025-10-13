@@ -33,6 +33,10 @@ export class MemberService {
     )
   }
 
+  UpdateMember(displayName : string ,memberImageUrl:string ){
+    return this.http.put(this.baseUrl+'members',{displayName,memberImageUrl})
+  }
+
  getCurrentMember(){
   const account = this.accountService.currentUser();
   

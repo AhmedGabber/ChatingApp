@@ -1,0 +1,33 @@
+
+<form #editForm="ngForm" (ngSubmit)="saveMember()" class="flex flex-col gap-4 w-full ">
+  <!-- Display Name -->
+  <input
+    [(ngModel)]="creds.displayName"
+    type="text"
+    class="input w-full"
+    name="displayName"
+    placeholder="Edit display name"
+    required
+  />
+
+  <!-- Upload Photo -->
+  <div class="flex flex-col gap-2">
+    <label class="text-white font-medium">Edit Profile Picture:</label>
+    <input
+      type="file"
+      class="file-input file-input-primary w-full"
+      (change)="onFileSelected($event)"
+      accept="image/*"
+    />
+  </div>
+
+  <!-- Preview -->
+  <div *ngIf="previewUrl" class="mt-2">
+    <img [src]="previewUrl" alt="Preview" class="w-24 h-24 rounded-full border" />
+  </div>
+
+  <div class="flex justify-end gap-3 mt-4">
+    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="goBack()">Cancel</button>
+  </div>
+</form>

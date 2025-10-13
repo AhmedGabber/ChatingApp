@@ -25,7 +25,8 @@ namespace API.Controllers
             {
                 SenderId = sender.Id,
                 RecipientId = recipient.Id,
-                content = createMessageDto.content
+                content = createMessageDto.content,
+                MessageType = createMessageDto.MessageType
             };
 
             messageRepository.AddMessage(message);

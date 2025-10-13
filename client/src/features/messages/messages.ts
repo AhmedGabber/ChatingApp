@@ -13,16 +13,14 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './messages.css'
 })
 export class Messages implements OnInit, AfterViewInit {
-  private messageService = inject(MessageService);
-  protected messages = signal<Message[]>([]);
   private route = inject(ActivatedRoute);
+  protected messageService = inject(MessageService);
   protected member = signal<Member | undefined>(undefined);
   protected messageContent = '';
   protected memberId = '';
-
   constructor() {
     effect(() => {
-      const currentMessages = this.messages();
+      const currentMessages = this.messageService.messageThread();
       if (currentMessages.length > 0) {
         this.scrollToBottom();
       }
@@ -32,12 +30,16 @@ export class Messages implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.memberId = id;
-      }
+      const otherId = params.get('id');
+      if (otherId) {
+        this.memberId=otherId;
+        if(this.messageService.hubConnection){
+          this.messageService.stopHubConnection();
+        }
+        this.messageService.createHubConnection(otherId);
+      }     
     });
-    this.loadMessage();
+
   }
 
   ngAfterViewInit(): void {
@@ -53,52 +55,26 @@ export class Messages implements OnInit, AfterViewInit {
     } catch (err) { }
   }
 
-  loadMessage() {
-    if (this.memberId) {
-      this.messageService.getMessagesThread(this.memberId).subscribe({
-        next: message => {
-          this.messages.set(message.map(msg => ({
-            ...msg,
-            currentUserSender: msg.senderId !== this.memberId
-          })));
-          this.scrollToBottom();
-        }
-      })
-    }
-  }
   deleteMessage(event: Event, id: string) {
   
     event.stopPropagation();
-
-    
     this.messageService.deleteMessage(id).subscribe({
       next: () => {
       
-        this.messages.update(messages => messages.filter(msg => msg.id !== id));
+        this.messageService.messageThread.update(messages => messages.filter(msg => msg.id !== id));
       },
       error: err => {
         console.error('Error deleting message:', err);
       }
     });
   }
-  sendMessage() {
-    if (this.messageContent.length > 150) {
-      return;
-    }
-    if (!this.memberId || !this.messageContent.trim()) {
-      return;
-    }
 
-    this.messageService.sendMessage(this.memberId, this.messageContent).subscribe({
-      next: message => {
-        message.currentUserSender = true;
+async sendMessage() {
+  if (this.messageContent.length > 150) return;
+  if (!this.memberId || !this.messageContent.trim()) return;
 
-        this.messages.update(messages => [...messages, message]);
+  await this.messageService.sendMessage(this.memberId, this.messageContent);
+  this.messageContent = '';
+}
 
-        this.messageContent = '';
-
-        this.scrollToBottom();
-      }
-    });
-  }
 }

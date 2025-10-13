@@ -10,7 +10,7 @@
         <tbody>
             <!-- row 1 -->
             @for (member of members$ |async; track $index) {
-           @if(memberService.curentMember().id!=member.id){
+           @if(memberService.curentMember().id!==member.id){
             <tr>
                 <td>
                     <div class="pl-15 flex items-center gap-3">

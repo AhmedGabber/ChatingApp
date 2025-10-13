@@ -27,7 +27,7 @@
                     <span>{{user?.displayName}}</span>
                 </div>
                 <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                    <li><a>Item 1</a></li>
+                    <li><a [routerLink]="['/members', user.id, 'editprofile']" >My profile</a></li>
                     <li><a (click)="logout()">Logout</a></li>
                 </ul>
             </div>

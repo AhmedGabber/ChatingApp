@@ -10,4 +10,5 @@ export type Message = {
   recipientDisplayName: string
   recipientImageUrl: string
   currentUserSender?:boolean
+  typeMessage:number
 }
