@@ -6,13 +6,6 @@ The architecture follows **Clean Architecture principles**, with clear separatio
 
 ---
 
-## Project Structure
-ChatingApp/
-│
-├── API/ # .NET 8 Web API backend
-├── client/ # Angular frontend application
-└── ChatingApp.sln # Solution file
-
 
 - **Backend (API)** → Built with ASP.NET Core 8, Entity Framework Core, and SQL Server.  
 - **Frontend (client)** → Built with Angular 20, Tailwind CSS, and SignalR for real-time updates.  
@@ -92,7 +85,7 @@ npm install -g @angular/cli
 To run the project 
 Step 1: Clone the Repository 
 ```Terminal
-git clone https://github.com/<your-username>/ChatingApp.git
+git clone https://github.com/AhmedGabber/ChatingApp.git
 cd ChatingApp
 ```
 
