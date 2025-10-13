@@ -90,7 +90,8 @@ cd ChatingApp
 ```
 
 Step 2: Setup the Backend (.NET API)
-```Terminal (Run each line separately in the terminal)
+(Run each line from the following lines in the terminal separately)
+```Terminal 
 cd API
 dotnet restore
 dotnet ef database update
@@ -99,7 +100,8 @@ dotnet run
 
 
 Step 3: Setup the Frontend (Angular) 
-```Terminal (Run each line separately in the terminal)
+(Run each line from the following lines in the terminal separately)
+```Terminal 
 cd ../client
 npm install
 ng serve
