@@ -17,6 +17,7 @@ export class Messages implements OnInit, AfterViewInit {
   protected messageService = inject(MessageService);
   protected member = signal<Member | undefined>(undefined);
   protected messageContent = '';
+  protected content = '';
   protected memberId = '';
   constructor() {
     effect(() => {
@@ -32,12 +33,12 @@ export class Messages implements OnInit, AfterViewInit {
     this.route.paramMap.subscribe(params => {
       const otherId = params.get('id');
       if (otherId) {
-        this.memberId=otherId;
-        if(this.messageService.hubConnection){
+        this.memberId = otherId;
+        if (this.messageService.hubConnection) {
           this.messageService.stopHubConnection();
         }
         this.messageService.createHubConnection(otherId);
-      }     
+      }
     });
 
   }
@@ -56,11 +57,11 @@ export class Messages implements OnInit, AfterViewInit {
   }
 
   deleteMessage(event: Event, id: string) {
-  
+
     event.stopPropagation();
     this.messageService.deleteMessage(id).subscribe({
       next: () => {
-      
+
         this.messageService.messageThread.update(messages => messages.filter(msg => msg.id !== id));
       },
       error: err => {
@@ -69,12 +70,14 @@ export class Messages implements OnInit, AfterViewInit {
     });
   }
 
-async sendMessage() {
-  if (this.messageContent.length > 150) return;
-  if (!this.memberId || !this.messageContent.trim()) return;
+  async sendMessage() {
+    if (this.messageContent.length > 150) return;
+    if (!this.memberId || !this.messageContent.trim()) return;
 
-  await this.messageService.sendMessage(this.memberId, this.messageContent);
-  this.messageContent = '';
-}
+    this.content = this.messageContent;
+    this.messageContent = '';
+    await this.messageService.sendMessage(this.memberId, this.content);
+    this.content = '';
+  }
 
 }

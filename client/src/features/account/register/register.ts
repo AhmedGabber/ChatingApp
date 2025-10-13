@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { registerCreds } from '../../../types/user';
 import { AccountService } from '../../../core/services/account-service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../../core/services/toast-service';
 
 @Component({
   selector: 'app-register',
@@ -12,10 +13,10 @@ import { Router } from '@angular/router';
 })
 export class Register {
   private router = inject(Router)
-  protected creds = {} as registerCreds
   private accountService = inject(AccountService);
+  protected creds = {} as registerCreds
   protected cancelRegister=output<boolean>();
-  
+  private toster = inject(ToastService)
   register() {
     this.accountService.register(this.creds).subscribe({
       next: response => {this.router.navigateByUrl('/members');
@@ -28,7 +29,7 @@ export class Register {
 
       },
       error: error => {
-        alert(error.message);
+        this.toster.error("This mail is already used")
       }
     });
   }
