@@ -8,7 +8,7 @@ public class MessageDto
     public required string content { get; set; }
     public DateTime? DateRead { get; set; }
     public DateTime MessageSent { get; set; } 
-    public int MessageType { get; set; } = 0;
+    public int MessageType { get; set; }
     public required string SenderId { get; set; }
     public required string SenderDisplayName { get; set; }
     public string? SenderImageUrl { get; set; }

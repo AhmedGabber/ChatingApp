@@ -7,10 +7,11 @@ public class Message
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public required string content { get; set; }
     public DateTime? DateRead { get; set; }
-    public int MessageType { get; set; } = 0;
+    public int MessageType { get; set; }
     public DateTime MessageSent { get; set; } = DateTime.UtcNow;
     public bool SenderDeleted { get; set; }
     public bool RecipientDeleted { get; set; }
+
 
     public required string SenderId { get; set; }
     public Member Sender { get; set; } = null!;

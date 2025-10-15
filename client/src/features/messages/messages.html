@@ -17,25 +17,38 @@
                     {{message.messageSent | date:'short'}}
                 </time>
             </div>
-            @if(!message.currentUserSender){
+            @if (!message.currentUserSender) {
+            <div class="chat-message">
+                <div class="chat-bubble">
+                    <ng-container *ngIf="message.messageType === 0">
+                        {{ message.content }}
+                    </ng-container>
 
-                <div class="chat-message">
-                    <div class="chat-bubble">
-                        {{ message.content }}
-                    </div>
-                    <button class="delete-btn" (click)="deleteMessage($event, message.id)">
-                        🗑️
-                    </button>
+                    <ng-container *ngIf="message.messageType === 1">
+                        <img [src]="message.content" alt="image message"
+                            class="max-w-xs rounded-lg" />
+                    </ng-container>
                 </div>
-            }@else if(message.currentUserSender){              
-                <div class="chat-message">
-                    <button class="delete-btn" (click)="deleteMessage($event, message.id)">
-                        🗑️
-                    </button>
-                    <div class="chat-bubble">
+                <button class="delete-btn" (click)="deleteMessage($event, message.id)">
+                    🗑️
+                </button>
+            </div>
+            } @else if (message.currentUserSender) {
+            <div class="chat-message">
+                <button class="delete-btn" (click)="deleteMessage($event, message.id)">
+                    🗑️
+                </button>
+                <div class="chat-bubble">
+                    <ng-container *ngIf="message.messageType === 0">
                         {{ message.content }}
-                    </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="message.messageType === 1">
+                        <img [src]="message.content" alt="image message"
+                            class="max-w-xs rounded-lg" />
+                    </ng-container>
                 </div>
+            </div>
             }
             <div class="chat-footer opacity-50 pt-3 pb-3"></div>
         </div>
@@ -44,7 +57,25 @@
     </div>
 
     <div class="w-full p-2 border-t  sticky bottom-0">
-        <div class="flex">
+        <div class="flex items-center gap-2">
+            <button class="btn hover:bg-gray-100" (click)="openModal()">📷</button>
+            <dialog id="my_modal_3" class="modal">
+                <div class="modal-box">
+                    <form method="dialog">
+                        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" type="button"
+                            (click)="closeModal()">✕</button>
+                    </form>
+                    <h3 class="text-lg font-bold">Put Photo</h3>
+                    <label class="cursor-pointer flex items-center justify-center p-2 rounded-lg">
+
+                        <input type="file" class="file-input file-input-primary w-full mb-5"
+                            (change)="onFileSelected($event)" accept="image/*" />
+
+                    </label>
+                    <button class="btn btn-primary absolute bottom-2 right-2" type="button"
+                        (click)="sendMessage()">Send</button>
+                </div>
+            </dialog>
             <div *ngIf="(messageContent?.length ?? 0) >= 150" class="text-red-600 text-sm mt-1 text">
                 Max length 150 character
             </div>

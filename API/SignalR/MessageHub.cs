@@ -37,13 +37,14 @@ public class MessageHub(IMessageRepository messageRepository , IMemberRepository
             {
                 SenderId = sender.Id,
                 RecipientId = recipient.Id,
-                content = createMessageDto.content
+                content = createMessageDto.content,
+                MessageType = createMessageDto.MessageType               
             };
 
             messageRepository.AddMessage(message);
             if (await messageRepository.SaveAllAsync())
             {
-            var group = GetGroupName(sender.Id, recipient.Id);
+            var group = GetGroupName(sender.Id, recipient.Id);   
             await Clients.Group(group).SendAsync("NewMessage",message.ToDto());
             }
     }

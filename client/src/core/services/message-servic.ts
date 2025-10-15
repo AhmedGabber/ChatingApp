@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { AccountService } from './account-service';
 import { Member } from '../../types/member';
-import { Message } from '../../types/message';
+import { Message, MessageSend } from '../../types/message';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { single } from 'rxjs';
 
@@ -20,6 +20,7 @@ export class MessageService {
     const currentUser = this.accountService.currentUser();
     if(!currentUser)
        return;
+
     this.hubConnection=new HubConnectionBuilder().withUrl(this.baseUrl + 'hubs/messages?userId='+otherUserId ,{
       accessTokenFactory:()=>currentUser.token
     })
@@ -31,7 +32,7 @@ export class MessageService {
       
           this.messageThread.set(messages.map(msg => ({
             ...msg,
-            currentUserSender: msg.senderId !== otherUserId
+            currentUserSender: msg.senderId !== otherUserId,
           })));
     })
         this.hubConnection.on("NewMessage",(message:Message)=>{
@@ -54,8 +55,12 @@ export class MessageService {
     return this.http.get<Message[]>(this.baseUrl+'api/messages/thread/'+memberId);
   }
 
-  sendMessage(recipientId:string,content:string){
-    return this.hubConnection?.invoke('SendMessage',{recipientId,content});
+   sendMessage(Creds:MessageSend){
+    return this.hubConnection?.invoke('SendMessage',{
+    recipientId: Creds.recipientId,
+    content: Creds.content,
+    messageType: Creds.messageType
+  });
   }
 
   deleteMessage(id:string)
