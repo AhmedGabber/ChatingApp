@@ -29,6 +29,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();

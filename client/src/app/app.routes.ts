@@ -8,9 +8,11 @@ import { authGuard } from '../core/guards/auth-guard';
 import { MemberProfile } from '../features/members/member-profile/member-profile';
 import { MemberProfileEdit } from '../features/members/member-profile-edit/member-profile-edit';
 import { memberResolver } from './features/members/member-resolver';
+import { VerifyEmail } from '../features/account/verify-email/verify-email';
 
 export const routes: Routes = [
     { path: '', component: Home },
+    { path: 'verify-email', component: VerifyEmail },
     {
         path: '',
         runGuardsAndResolvers: 'always',
@@ -28,6 +30,7 @@ export const routes: Routes = [
                     { path: 'editprofile', component: MemberProfileEdit, title: 'Edit Profile' }
                 ]
             },
+             
             { path: 'messages/:id', component: Messages },
             { path: 'lists', component: Lists }]
     },

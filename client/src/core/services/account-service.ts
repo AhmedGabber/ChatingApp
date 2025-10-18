@@ -18,11 +18,16 @@ export class AccountService {
   baseUrl = "https://localhost:7001/api/";
 
   register(creds: registerCreds) {
-    return this.http.post<User>(this.baseUrl + 'account/register', creds).pipe(tap(user => {
+    return this.http.post<User>(this.baseUrl + 'account/register', creds)
+  }
+
+  verifyEmail(email: string, token: string) {
+    return this.http.get<User>(`https://localhost:7001/api/account/verify-email?email=${email}&token=${token}`)
+    .pipe(tap(user => {
       if (user) {
         this.setCurrentUser(user);
       }
-    }));
+    }));;
   }
 
   login(creds: loginCreds) {

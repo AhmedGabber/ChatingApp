@@ -26,6 +26,7 @@ public class Seed
                 ImageUrl = member.ImageUrl,
                 PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes("Pa$$w0rd")),
                 PasswordSalt = hmac.Key,
+                EmailConfirmed = true,
 
                 Member = new Member
                 {

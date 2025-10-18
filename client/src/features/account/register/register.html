@@ -1,14 +1,79 @@
 <div class="card bg-base-100 w-1/2 mx-auto flex flex-col p-6 rounded-lg shadow-lg">
-    <div class="card-title justify-center text-3xl text-primary">Sign up</div>
-    <div class="card-body w-full">
-        <form #rigesterForn="ngForm" (ngSubmit)="register()" class="flex flex-col gap-4 w -end-full">
-            <input type="text" class="input w-full" name="email" [(ngModel)]="creds.email" placeholder="email">
-            <input type="text" class="input w-full" name="displayName" [(ngModel)]="creds.displayName" placeholder="displayName">       
-            <input type="password" class="input w-full" name="password" [(ngModel)]="creds.password" placeholder="password">
-            <div class="flex items-center justify-end gap-3">           
-                <button type="submit" class="btn btn-primary">Register</button>
-                <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
-            </div>
-        </form>
-    </div>
+  <div class="card-title justify-center text-3xl text-primary">Sign up</div>
+  <div class="card-body w-full">
+    <form #registerForm="ngForm" (ngSubmit)="register()" class="flex flex-col gap-4 w-full">
+      
+      <!-- Email -->
+      <input 
+        type="email" 
+        class="input w-full" 
+        name="email" 
+        [(ngModel)]="creds.email" 
+        placeholder="Email"
+        required
+        email />
+      
+      <!-- Display Name -->
+      <input 
+        type="text" 
+        class="input w-full" 
+        name="displayName" 
+        [(ngModel)]="creds.displayName" 
+        placeholder="Display Name"
+        required />
+
+      <!-- Password Field -->
+      <div class="relative">
+        <input 
+          [type]="showPassword ? 'text' : 'password'"
+          class="input w-full pr-10"
+          name="password"
+          [(ngModel)]="creds.password"
+          placeholder="Password"
+          required
+          pattern="^(?=.*[A-Z])(?=.*[\W_]).{4,}$"
+          #password="ngModel"
+        />
+        <button 
+          type="button" 
+          class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600"
+          (click)="togglePasswordVisibility()">
+          {{ showPassword ? '🙈' : '👁️' }}
+        </button>
+      </div>
+      <div *ngIf="password.invalid && password.touched" class="text-red-500 text-sm">
+        Password must be at least 4 characters, include one uppercase letter and one symbol.
+      </div>
+
+      <!-- Confirm Password Field -->
+      <input 
+        type="password" 
+        class="input w-full"
+        name="confirmPassword"
+        [(ngModel)]="confirmPassword"
+        placeholder="Confirm Password"
+        required
+        #confirmPass="ngModel"
+      />
+      <div *ngIf="confirmPassword && confirmPassword !== creds.password" class="text-red-500 text-sm">
+        Passwords do not match.
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex items-center justify-end gap-3 mt-3">
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="registerForm.invalid || creds.password !== confirmPassword">
+          Register
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-secondary" 
+          (click)="cancel()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
